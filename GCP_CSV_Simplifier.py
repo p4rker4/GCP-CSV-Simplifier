@@ -30,6 +30,8 @@ def filter_csv(input_folder, output_file, relevant_indices):
     #check for output dir
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
+    unique_rows = set()
+
     #write output file (will overwrite any previous)
     with open(output_file, mode='w', newline='', encoding='utf-8') as outfile:
         writer = csv.writer(outfile)
@@ -41,8 +43,11 @@ def filter_csv(input_folder, output_file, relevant_indices):
                 reader = csv.reader(infile)
 
                 for row in reader:
-                    filtered_row = [row[i] for i in relevant_indices if i < len(row)]
-                    writer.writerow(filtered_row)
+                    filtered_row = tuple(row[i] for i in relevant_indices if i < len(row))
+                    if filtered_row not in unique_rows:
+                        unique_rows.add(filtered_row)
+                        writer.writerow(filtered_row)
+
 
 INPUT_FOLDER = 'input'
 OUTPUT_FILE = 'output/output.csv'
