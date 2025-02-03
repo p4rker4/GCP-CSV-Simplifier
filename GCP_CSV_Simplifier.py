@@ -47,6 +47,9 @@ def filter_csv(input_folder, output_file, relevant_indices):
                     if filtered_row not in unique_rows:
                         unique_rows.add(filtered_row)
                         writer.writerow(filtered_row)
+                        print(f'Read point {filtered_row[0]} from {input_file}')
+                    else:
+                        print(f'Found duplicate point, {filtered_row[0]} from {input_file}, skipping...')
 
 
 INPUT_FOLDER = 'input'
